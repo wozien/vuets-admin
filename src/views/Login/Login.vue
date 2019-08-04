@@ -22,7 +22,7 @@
 
         <!-- button -->
         <el-form-item>
-          <el-button type="primary" style="width:100%" @click.native.prevent="handleClick">
+          <el-button type="primary" :loading="isLogin" style="width:100%" @click.native.prevent="handleClick">
             登录
           </el-button>
         </el-form-item>
@@ -45,6 +45,8 @@ import LoginHeader from './LoginHeader.vue';
 })
 export default class Login extends Vue {
   // 用Provide装饰器定义组件的data
+  @Provide() isLogin: boolean = false;
+
   @Provide() ruleForm: {
     username: String;
     pwd: String;
@@ -60,10 +62,19 @@ export default class Login extends Vue {
     pwd: [{ required: true, message: '请输入密码', trigger: 'blur' }]
   };
 
+  // 登录
   handleClick(): void {
     (this.$refs['ruleForm'] as any).validate((valid: boolean) => {
       if (valid) {
-        console.log('校验通过');
+        // console.log('校验通过');
+        this.isLogin = true;
+        (this as any).$axios.post('/api/users/login', this.ruleForm).then((res: any) => {
+          this.isLogin = false;
+          // 存储token
+          localStorage.setItem('tsToken', res.data.token);
+          // 跳转首页
+          this.$router.push('/');
+        });
       }
     });
   }

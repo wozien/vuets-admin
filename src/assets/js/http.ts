@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { Message } from 'element-ui';
+import router from '@/router';
 
 const instance = axios.create({
   timeout: 10000
@@ -8,6 +9,10 @@ const instance = axios.create({
 // 请求拦截器
 instance.interceptors.request.use(
   (config: AxiosRequestConfig) => {
+    // 登录的token放到请求头部
+    if (localStorage.tsToken) {
+      config.headers.Authorization = localStorage.tsToken;
+    }
     return config;
   },
   (err: any) => {
@@ -26,6 +31,8 @@ instance.interceptors.response.use(
       switch (err.response.status) {
         case 401:
           errMsg = '登录状态失效，请重新登录';
+          localStorage.removeItem('tsToken');
+          router.push('/login');
           break;
         case 403:
           errMsg = '拒绝访问';
