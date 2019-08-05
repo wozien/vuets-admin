@@ -38,12 +38,15 @@
 
 <script lang="ts">
 import { Component, Vue, Provide } from 'vue-property-decorator';
+import { Mutation } from 'vuex-class';
 import LoginHeader from './LoginHeader.vue';
 
 @Component({
   components: { LoginHeader }
 })
 export default class Login extends Vue {
+  @Mutation('SET_USER') setUser: any;
+
   // 用Provide装饰器定义组件的data
   @Provide() isLogin: boolean = false;
 
@@ -68,13 +71,20 @@ export default class Login extends Vue {
       if (valid) {
         // console.log('校验通过');
         this.isLogin = true;
-        (this as any).$axios.post('/api/users/login', this.ruleForm).then((res: any) => {
-          this.isLogin = false;
-          // 存储token
-          localStorage.setItem('tsToken', res.data.token);
-          // 跳转首页
-          this.$router.push('/');
-        });
+        (this as any).$axios
+          .post('/api/users/login', this.ruleForm)
+          .then((res: any) => {
+            this.isLogin = false;
+            // 存储token
+            localStorage.setItem('tsToken', res.data.token);
+            // 保存到vuex
+            this.setUser(res.data.token);
+            // 跳转首页
+            this.$router.push('/');
+          })
+          .catch(() => {
+            this.isLogin = false;
+          });
       }
     });
   }
