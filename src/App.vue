@@ -15,7 +15,7 @@ export default class App extends Vue {
   @Mutation('SET_USER') setUser: any;
 
   created() {
-    this.setUser(localStorage.tsToken);
+    this.setUser(localStorage.tsToken || '');
   }
 }
 </script>
