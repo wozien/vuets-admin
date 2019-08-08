@@ -47,7 +47,7 @@ import LoginHeader from './LoginHeader.vue';
 export default class Login extends Vue {
   @Mutation('SET_USER') setUser: any;
 
-  // 用Provide装饰器定义组件的data
+  // data
   @Provide() isLogin: boolean = false;
 
   @Provide() ruleForm: {
