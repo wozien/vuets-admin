@@ -11,9 +11,7 @@
       <div class="top">
         <i class="fa fa-reorder"></i>
         <el-breadcrumb class="breadcrumb" separator="/">
-          <el-breadcrumb-item>1</el-breadcrumb-item>
-          <el-breadcrumb-item>2</el-breadcrumb-item>
-          <el-breadcrumb-item>3</el-breadcrumb-item>
+          <el-breadcrumb-item v-for="(item, index) in breadCrumbItems" :key="index" :to="item.path">{{ item.title }}</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
 
@@ -26,12 +24,36 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Provide, Watch } from 'vue-property-decorator';
 
 @Component({
   components: {}
 })
-export default class Content extends Vue {}
+export default class Content extends Vue {
+  @Provide() breadCrumbItems: any;
+
+  // 监听路由变化
+  @Watch('$route') handleWatchRoute(to: any) {
+    this.initBreadCrumb(to);
+  }
+
+  created() {
+    this.initBreadCrumb(this.$route);
+  }
+
+  initBreadCrumb(route: any): void {
+    let items: any = [{ path: '/', title: '后台数据管理' }];
+    route.matched.forEach((match: any) => {
+      if (match.meta && match.meta.title) {
+        items.push({
+          path: match.path,
+          title: match.meta.title
+        });
+      }
+    });
+    this.breadCrumbItems = items;
+  }
+}
 </script>
 
 <style lang="scss" scoped>
