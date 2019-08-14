@@ -85,7 +85,8 @@ export const routes = [
       {
         path: '/userInfo',
         name: 'userInfo',
-        component: () => import('@/views/User/UserInfo.vue')
+        component: () => import('@/views/User/UserInfo.vue'),
+        meta: { title: '个人中心' }
       }
     ]
   },

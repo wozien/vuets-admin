@@ -36,10 +36,6 @@ export default class SideBar extends Vue {
   get menus() {
     return this.routes.filter((item: any) => item.show && item.children && item.children.length);
   }
-
-  created() {
-    console.log(this.menus);
-  }
 }
 </script>
 

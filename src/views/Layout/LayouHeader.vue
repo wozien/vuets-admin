@@ -38,7 +38,7 @@ export default class LayoutHeader extends Vue {
       localStorage.removeItem('tsToken');
       this.$router.push('/login');
     } else {
-      console.log('个人中心');
+      this.$router.push('/user');
     }
   }
 }
