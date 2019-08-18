@@ -14,7 +14,7 @@
       <el-table-column label="操作" width="160">
         <template slot-scope="scope">
           <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-          <el-button size="mini" type="danger">删除</el-button>
+          <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -91,6 +91,17 @@ export default class TableData extends Vue {
   handleEdit(index: number, row: any) {
     this.formData = row;
     this.dialogVisible = true;
+  }
+
+  handleDelete(index: number, row: any) {
+    (this as any).$axios.delete(`/api/profiles/delete/${row._id}`).then((res: any) => {
+      this.$message({
+        message: res.data.msg,
+        type: 'success'
+      });
+
+      this.tableData.splice(index, 1);
+    });
   }
 
   closeDialog() {
