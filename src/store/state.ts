@@ -1,8 +1,6 @@
-import { routes } from '../router';
-
 const state = {
   user: null,
-  routes
+  routes: []
 };
 
 export default state;

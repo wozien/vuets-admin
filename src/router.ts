@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Layout from './views/Layout/Index.vue';
+import jwt_decode from 'jwt-decode';
 
 Vue.use(Router);
 
@@ -56,7 +57,8 @@ export const routes = [
         component: () => import('@/views/Data/FormData.vue'),
         meta: {
           title: '表单管理',
-          icon: 'fa fa-file-text-o'
+          icon: 'fa fa-file-text-o',
+          roles: ['admin', 'editor']
         }
       }
     ]
@@ -72,7 +74,7 @@ export const routes = [
         path: '/accountData',
         name: 'accountData',
         component: () => import('@/views/User/AccountData.vue'),
-        meta: { title: '账户管理', icon: 'fa fa-user-plus' }
+        meta: { title: '账户管理', icon: 'fa fa-user-plus', roles: ['admin'] }
       }
     ]
   },
@@ -114,11 +116,24 @@ router.beforeEach((to: any, from: any, next: any) => {
     next();
   } else {
     if (isLogin) {
-      next();
+      const { key } = jwt_decode(localStorage.tsToken);
+      if (hasPermission(key, to)) {
+        next();
+      } else {
+        next('/404');
+      }
     } else {
       next('/login');
     }
   }
 });
+
+// 是否有改路由的权限
+function hasPermission(role: string, route: any) {
+  if (route.meta && route.meta.roles) {
+    return route.meta.roles.some((item: string) => item === role);
+  }
+  return true;
+}
 
 export default router;

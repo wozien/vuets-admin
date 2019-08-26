@@ -11,7 +11,7 @@
       <el-table-column prop="type" label="技术栈" width="120"></el-table-column>
       <el-table-column prop="count" label="报名人数" width="120"></el-table-column>
       <el-table-column prop="date" label="上线日期" width="160"></el-table-column>
-      <el-table-column label="操作" width="160">
+      <el-table-column label="操作" width="160" v-if="user.key !== 'visitor'">
         <template slot-scope="scope">
           <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
           <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
@@ -37,12 +37,14 @@
 
 <script lang="ts">
 import { Component, Vue, Provide } from 'vue-property-decorator';
+import { State } from 'vuex-class';
 import EditDialog from './EditDialog.vue';
 
 @Component({
   components: { EditDialog }
 })
 export default class TableData extends Vue {
+  @State('user') user: any;
   @Provide() searchVal: string = '';
   @Provide() tableData: any = [];
   @Provide() page: number = 1;
