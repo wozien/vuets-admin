@@ -5,7 +5,7 @@ import jwt_decode from 'jwt-decode';
 
 Vue.use(Router);
 
-export const routes = [
+export const asyncRoutes = [
   {
     path: '/login',
     name: 'login',
@@ -106,7 +106,7 @@ export const routes = [
 const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  routes: asyncRoutes
 });
 
 // 全局路由钩子

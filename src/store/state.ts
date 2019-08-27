@@ -1,6 +1,6 @@
 const state = {
   user: null,
-  routes: []
+  myRoutes: []
 };
 
 export default state;

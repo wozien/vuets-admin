@@ -30,7 +30,7 @@ import { State } from 'vuex-class';
   components: {}
 })
 export default class SideBar extends Vue {
-  @State('routes') routes: any;
+  @State('myRoutes') routes: any;
 
   // computed
   get menus() {
