@@ -2,13 +2,13 @@
 
 ## 功能
 
-<input type="checkbox" checked>账号登录和找回密码<br>
-<input type="checkbox" checked>个人中心<br>
-<input type="checkbox" checked>数据仪表盘<br>
-<input type="checkbox" checked>数据表单管理<br>
-<input type="checkbox" checked>账号角色管理<br>
-<input type="checkbox" checked>角色权限<br>
-<input type="checkbox" checked>动态路由菜单<br>
+- [x] 账号登录和找回密码
+- [x] 个人中心
+- [x] 数据仪表盘
+- [x] 数据表单管理
+- [x] 账号角色管理
+- [x] 角色权限
+- [x] 动态路由菜单
 
 ## 预览
 
